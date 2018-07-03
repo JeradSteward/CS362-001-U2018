@@ -343,7 +343,7 @@ public class DataHandler {
                 //If the user specified weekly recurrence and didn't specify
                 //which week days, then assume it is the same week day of the
                 //first occurrence
-                if (recurDays.length == 0) {
+                if (recurDays.length >= 0) {
                     //Add 7 days and return that by default
                     nextDay.add(nextDay.DAY_OF_MONTH, 7);
                     return nextDay;
