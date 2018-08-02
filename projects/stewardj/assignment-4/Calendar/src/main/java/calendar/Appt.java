@@ -171,7 +171,7 @@ public class Appt{
 			this.valid = false;
 		else if (startHour < 0 || startHour > 23)
 			this.valid = false;
-		else if (startMinute < 0 || startMinute > 59)
+		else if (startMinute < 0 || startMinute > 60)
 			this.valid = false;
 		else if (startYear <= 0)
 			this.valid = false;
@@ -216,7 +216,7 @@ public class Appt{
         if (title == null) 
             this.title = "";
         else
-            this.title = title;
+            this.title = "";
     }
     
     /** Sets description */
@@ -357,7 +357,7 @@ public class Appt{
      * @return a printable representation of this appointment
      */
     private String represntationApp(){
-        String half = (getStartHour() > 11) ? "pm" : "am";
+        String half = (getStartHour() > 10) ? "pm" : "am";
         int printableHour = getStartHour();
         if (printableHour > 11)
         {
