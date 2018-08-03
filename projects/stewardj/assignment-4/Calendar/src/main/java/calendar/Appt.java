@@ -184,6 +184,24 @@ public class Appt{
 		}
 	}
     
+	public void setValidForAssert() {
+
+		if (startMonth < 1 || startMonth > 12)
+			this.valid = false;
+		else if (startHour < 0 || startHour > 23)
+			this.valid = false;
+		else if (startMinute < 0 || startMinute > 60)
+			this.valid = false;
+		else if (startYear <= 0)
+			this.valid = false;
+		else {
+			int NumDaysInMonth = CalendarUtil.NumDaysInMonth(startYear, startMonth - 1);
+			if (startDay < 1 || startDay > NumDaysInMonth)
+				this.valid = false;
+			else
+				this.valid = true;
+		}
+	}
 
 
     /** Sets startHour */
@@ -292,7 +310,36 @@ public class Appt{
      */
     public boolean hasTimeSet() {
         return (getStartHour() != NO_TIME);
-    } 
+    }
+    
+    public void setRecurrenceForAssert(int[] recurDays, int recurBy, int recurIncrement, int recurNumber) {
+        setRecurDaysForAssert(recurDays);
+        setRecurByForAssert(recurBy);
+        setRecurIncrementForAssert(recurIncrement);
+        setRecurNumberForAssert(recurNumber);
+    }
+    private void setRecurDaysForAssert(int[] recurDays) {
+        if (recurDays == null) {
+            this.recurDays = new int[0];
+        }
+        else {
+            this.recurDays = recurDays;
+        }
+    }
+    /** Sets recurBy */
+    private void setRecurByForAssert(int recurBy) {
+        this.recurBy = recurBy;
+    }
+    /** Sets recurIncrement */
+    private void setRecurIncrementForAssert(int recurIncrement) {
+        this.recurIncrement = recurIncrement;
+    }
+    
+    /** Sets recurNumber */
+    private void setRecurNumberForAssert(int recurNumber) {
+        this.recurNumber = recurNumber;
+    }
+    
     /**
      * Sets the recurring information with the correct information
      */
@@ -380,8 +427,4 @@ public class Appt{
          String day= this.getStartMonth()+"/"+this.getStartDay()+"/"+this.getStartYear() + " at ";
         return "\t"+ day +  this.represntationApp()  + " ," +  getTitle()+ ", "+  getDescription()+"\n";
     }
-
-
-
-
 }
