@@ -301,20 +301,17 @@ public class UrlValidator implements Serializable {
         if (value == null) {
             return false;
         }
-
         // Check the whole url address structure
         Matcher urlMatcher = URL_PATTERN.matcher(value);
         if (!urlMatcher.matches()) {
             return false;
-        }
-
+        }   
         String scheme = urlMatcher.group(PARSE_URL_SCHEME);
         if (!isValidScheme(scheme)) {
             return false;
         }
 
         String authority = urlMatcher.group(PARSE_URL_AUTHORITY);
-
         if ("http".equals(scheme)) {// Special case - file: allows an empty authority
             if (authority != null) {
                 if (authority.contains(":")) { // but cannot allow trailing :
@@ -328,19 +325,15 @@ public class UrlValidator implements Serializable {
                 return false;
             }
         }
-
         if (!isValidPath(urlMatcher.group(PARSE_URL_PATH))) {
             return false;
         }
-
         if (!isValidQuery(urlMatcher.group(PARSE_URL_QUERY))) {
             return false;
         }
-
         if (!isValidFragment(urlMatcher.group(PARSE_URL_FRAGMENT))) {
             return false;
         }
-
         return true;
     }
 
