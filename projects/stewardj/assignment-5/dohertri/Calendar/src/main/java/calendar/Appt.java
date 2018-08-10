@@ -145,9 +145,9 @@ public class Appt{
                 String title, String description,
                 String emailAddress) {
 
-         //Just call the other constructor
-	       //Bug here replaced NO_TIME for 0 (Line 150)
-         this(0, 0, startDay, startMonth, startYear, title,
+	/*Bug here. Should be "this(NO_TIME, NO_TIME, startDay, startMonth, startYear, title, 
+    	description, emailAddress)"*/
+         this(0, 0, startDay, startMonth, startYear, title, 
             description, emailAddress);
          this.valid=true;
     }
@@ -186,6 +186,24 @@ public class Appt{
 		}
 	}
 
+	public void setValidForAssert() {
+
+		if (startMonth < 1 || startMonth > 12)
+			this.valid = false;
+		else if (startHour < 0 || startHour > 23)//Bug here replaced "startHour < 0" with "startHour <= 0"
+			this.valid = false;
+		else if (startMinute < 0 || startMinute > 59)
+			this.valid = false;
+		else if (startYear <= 0)
+			this.valid = false;
+		else {
+			int NumDaysInMonth = CalendarUtil.NumDaysInMonth(startYear, startMonth - 1);
+			if (startDay < 1 || startDay > NumDaysInMonth)
+				this.valid = false;
+			else
+				this.valid = true;
+		}
+	}
 
 
     /** Sets startHour */
@@ -225,18 +243,18 @@ public class Appt{
     public void setDescription(String description) {
         if (description == null)
             this.description = "";
-        else //Bug #3
+        else 
             this.description = description;
     }
     /** Sets emailAddress */
     private void setEmailAddress(String emailAddress) {
 
-     //Bug #1 Below Lines 235-237
+    //Bug Below Lines 253-255
      if (emailAddress != null)
             this.emailAddress = emailAddress;
     }
-/*  Original condition statement from bug above
-    if (emailAddress == null)
+    //Original condition
+    /*if (emailAddress == null)
             this.emailAddress = "";
         else
             this.emailAddress = emailAddress;
@@ -306,6 +324,12 @@ public class Appt{
      * Sets the recurring information with the correct information
      */
     public void setRecurrence(int[] recurDays, int recurBy, int recurIncrement, int recurNumber) {
+        setRecurDays(recurDays);
+        setRecurBy(recurBy);
+        setRecurIncrement(recurIncrement);
+        setRecurNumber(recurNumber);
+    }
+    public void setRecurrenceForAssert(int[] recurDays, int recurBy, int recurIncrement, int recurNumber) {
         setRecurDays(recurDays);
         setRecurBy(recurBy);
         setRecurIncrement(recurIncrement);

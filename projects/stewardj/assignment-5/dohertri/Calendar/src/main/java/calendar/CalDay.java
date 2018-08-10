@@ -88,7 +88,22 @@ public class CalDay {
 		    getAppts().add(appt);
 		}
 	}
-
+	
+	public void addApptForAssert(Appt appt) {
+		if (appt.getValid()) {
+			for (int i = 0; i < getAppts().size(); i++) {
+				//Put the appointment in the correct order - finish this
+				if (((Appt)getAppts().get(i)).getStartHour() >
+										appt.getStartHour()) {
+					
+					getAppts().add(i, appt);
+					return;
+				}
+			}
+		    //The appointment hasn't been added yet, so add it
+		    getAppts().add(appt);
+		}
+	}
 	
 	/**
 	 * @return True if this is an initalized CalDay object
@@ -173,7 +188,7 @@ public class CalDay {
 	     StringBuilder sb = new StringBuilder();
 	
 		if (isValid()) {
-			String todayDate = (getMonth()+1) + "/" + getDay() + "/" + getYear();
+			String todayDate = (getMonth()) + "/" + getDay() + "/" + getYear();
 			sb.append("\t --- " + todayDate + " --- \n");
 			sb.append(" --- -------- Appointments ------------ --- \n");
 			Iterator<Appt> itr = this.appts.iterator();
